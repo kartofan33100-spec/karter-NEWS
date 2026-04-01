@@ -1,0 +1,31 @@
+.search-bar {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+
+.search-bar input,
+.search-bar select {
+    height: 46px;
+    padding: 0 14px;
+    border: 1px solid #cfcfcf;
+    border-radius: 6px;
+    font-size: 15px;
+    outline: none;
+    background: white;
+}
+
+.search-bar input {
+    flex: 1;
+    min-width: 260px;
+}
+
+.search-bar select {
+    min-width: 200px;
+}
+
+.search-bar input:focus,
+.search-bar select:focus {
+    border-color: #c81414;
+}
