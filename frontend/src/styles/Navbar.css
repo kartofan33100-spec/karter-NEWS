@@ -42,16 +42,16 @@
 .navbar__actions {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
     flex-wrap: wrap;
 }
 
 .navbar__search {
-    width: 140px;
+    width: 150px;
     height: 34px;
     border: none;
-    border-radius: 6px;
-    padding: 0 10px;
+    border-radius: 8px;
+    padding: 0 12px;
     outline: none;
 }
 
@@ -72,8 +72,93 @@
     background: transparent;
 }
 
-.navbar__btn--dark {
+.navbar__profile {
+    position: relative;
+}
+
+.navbar__avatar-btn {
+    background: transparent;
     border: none;
-    background: #111;
+    cursor: pointer;
+    padding: 0;
+}
+
+.navbar__avatar {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: #6b7280;
     color: white;
+    font-size: 24px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #ffffff33;
+}
+
+.navbar__dropdown {
+    position: absolute;
+    top: 72px;
+    right: 0;
+    width: 260px;
+    background: #ececec;
+    border-radius: 12px;
+    padding: 18px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+    z-index: 100;
+}
+
+.navbar__dropdown-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.navbar__dropdown-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: #f28b82;
+    color: #111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+}
+
+.navbar__dropdown-user p {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: #c81414;
+}
+
+.navbar__dropdown-divider {
+    height: 1px;
+    background: #999;
+    margin: 14px 0;
+}
+
+.navbar__dropdown-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+    text-decoration: none;
+    color: #c81414;
+    font-size: 16px;
+    font-weight: 700;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+}
+
+.navbar__dropdown-item:hover {
+    opacity: 0.8;
+}
+
+.navbar__dropdown-item--danger {
+    color: #c81414;
 }
