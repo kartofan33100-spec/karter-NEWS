@@ -147,10 +147,23 @@ async function deleteArticle(req, res, next) {
     }
 }
 
+async function getMyArticles(req, res, next) {
+    try {
+        const articles = await Article.find({ author: req.user._id })
+            .populate('author', 'name email')
+            .sort({ createdAt: -1 });
+
+        res.status(200).json(articles);
+    } catch (error) {
+        next(error);
+    }
+}
+
 module.exports = {
     createArticle,
     getAllArticles,
     getArticleById,
     updateArticle,
     deleteArticle,
+    getMyArticles,
 };

@@ -81,3 +81,19 @@ export async function deleteArticle(id, token) {
 
     return data;
 }
+
+export async function getMyArticles(token) {
+    const response = await fetch(`${API_URL}/my/articles`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.message || 'Failed to fetch my articles');
+    }
+
+    return data;
+}
