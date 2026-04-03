@@ -8,6 +8,7 @@ import EditArticlePage from './pages/EditArticlePage';
 import NewsPage from './pages/NewsPage';
 import CategoryPage from './pages/CategoryPage';
 import ProtectedRoute from './components/auth/ProtectedRoute';
+import MyArticlesPage from './pages/MyArticlesPage';
 
 function App() {
     return (
@@ -31,6 +32,14 @@ function App() {
                     element={
                         <ProtectedRoute>
                             <EditArticlePage />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/my-articles"
+                    element={
+                        <ProtectedRoute>
+                            <MyArticlesPage />
                         </ProtectedRoute>
                     }
                 />

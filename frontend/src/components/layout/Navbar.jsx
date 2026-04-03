@@ -103,7 +103,7 @@ function Navbar({ search = '', setSearch = null }) {
                                     </Link>
 
                                     <Link
-                                        to="/"
+                                        to="/my-articles"
                                         className="navbar__dropdown-item"
                                         onClick={() => setIsOpen(false)}
                                     >

@@ -7,10 +7,17 @@ export function AuthProvider({ children }) {
     const [token, setToken] = useState('');
 
     function login(authData) {
-        setUser(authData.user || null);
+        const normalizedUser = authData.user
+            ? {
+                ...authData.user,
+                id: authData.user.id || authData.user._id,
+            }
+            : null;
+
+        setUser(normalizedUser);
         setToken(authData.token || '');
         localStorage.setItem('token', authData.token || '');
-        localStorage.setItem('user', JSON.stringify(authData.user || null));
+        localStorage.setItem('user', JSON.stringify(normalizedUser));
     }
 
     function logout() {
