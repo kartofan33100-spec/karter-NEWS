@@ -1,0 +1,57 @@
+.news-form {
+    width: 100%;
+    max-width: 850px;
+    margin: 30px auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.news-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+.news-form-group label {
+    font-size: 14px;
+    font-weight: 700;
+    color: #222;
+}
+
+.news-form-group input,
+.news-form-group textarea,
+.news-form-group select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #cfcfcf;
+    border-radius: 6px;
+    font-size: 15px;
+    outline: none;
+    font-family: inherit;
+}
+
+.news-form-group input:focus,
+.news-form-group textarea:focus,
+.news-form-group select:focus {
+    border-color: #c81414;
+}
+
+.news-form-button {
+    height: 48px;
+    padding: 0 20px;
+    border: none;
+    border-radius: 6px;
+    background: #111;
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.news-form-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
