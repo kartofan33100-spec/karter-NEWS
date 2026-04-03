@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import '../../styles/navbar.css';
+import '../../styles/Navbar.css';
 
 function Navbar({ search = '', setSearch = null }) {
     const { user, logout } = useAuth();
