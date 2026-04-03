@@ -9,93 +9,88 @@ import {
     updateArticle,
 } from '../services/newsService';
 import { useAuth } from '../context/AuthContext';
+import '../styles/article-editor-page.css';
 
 function EditArticlePage() {
     const { id } = useParams();
     const { user, token } = useAuth();
     const navigate = useNavigate();
 
-    const [article, setArticle] = useState(null);
-    const [pageLoading, setPageLoading] = useState(true);
-    const [saveLoading, setSaveLoading] = useState(false);
-    const [deleteLoading, setDeleteLoading] = useState(false);
-    const [message, setMessage] = useState('');
-    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [article, set_article] = useState(null);
+    const [page_loading, set_page_loading] = useState(true);
+    const [save_loading, set_save_loading] = useState(false);
+    const [delete_loading, set_delete_loading] = useState(false);
+    const [message, set_message] = useState('');
+    const [is_delete_modal_open, set_is_delete_modal_open] = useState(false);
 
     useEffect(() => {
-        async function loadArticle() {
+        async function load_article() {
             try {
-                setPageLoading(true);
+                set_page_loading(true);
                 const data = await getArticleById(id);
-                setArticle(data);
+                set_article(data);
             } catch (error) {
-                setMessage(error.message);
+                set_message(error.message);
             } finally {
-                setPageLoading(false);
+                set_page_loading(false);
             }
         }
 
-        loadArticle();
+        load_article();
     }, [id]);
 
-    const isAuthor =
-        user &&
-        article &&
-        article.author &&
-        (user.id === article.author.id || user.id === article.author._id);
+    const current_user_id = user?.id?.toString() || user?._id?.toString();
+    const article_author_id =
+        article?.author?._id?.toString() || article?.author?.id?.toString();
 
-    async function handleUpdate(formData) {
-        setMessage('');
+    const is_author = current_user_id && article_author_id
+        ? current_user_id === article_author_id
+        : false;
+
+    async function handle_update(form_data) {
+        set_message('');
 
         if (
-            !formData.title ||
-            !formData.summary ||
-            !formData.content ||
-            !formData.category ||
-            !formData.image
+            !form_data.title ||
+            !form_data.summary ||
+            !form_data.content ||
+            !form_data.category ||
+            !form_data.image
         ) {
-            setMessage('Заполните все обязательные поля');
+            set_message('Заполните все обязательные поля, включая изображение');
             return;
         }
 
         try {
-            setSaveLoading(true);
-            const updatedArticle = await updateArticle(id, formData, token);
-            navigate(`/news/${updatedArticle._id}`);
+            set_save_loading(true);
+            const updated_article = await updateArticle(id, form_data, token);
+            navigate(`/news/${updated_article._id}`);
         } catch (error) {
-            setMessage(error.message);
+            set_message(error.message);
         } finally {
-            setSaveLoading(false);
+            set_save_loading(false);
         }
     }
 
-    async function handleDeleteConfirmed() {
+    async function handle_delete_confirmed() {
         try {
-            setDeleteLoading(true);
+            set_delete_loading(true);
             await deleteArticle(id, token);
-            setIsDeleteModalOpen(false);
+            set_is_delete_modal_open(false);
             navigate('/my-articles');
         } catch (error) {
-            setMessage(error.message);
+            set_message(error.message);
         } finally {
-            setDeleteLoading(false);
+            set_delete_loading(false);
         }
     }
 
-    if (pageLoading) {
+    if (page_loading) {
         return (
-            <div style={{ background: '#dcdcdc', minHeight: '100vh' }}>
+            <div className="article-editor-page">
                 <Navbar />
-                <main
-                    style={{
-                        maxWidth: '1200px',
-                        margin: '0 auto',
-                        padding: '20px',
-                        background: '#f4f4f4',
-                        minHeight: 'calc(100vh - 86px)',
-                    }}
-                >
-                    <p>Загрузка статьи...</p>
+                <main className="article-editor-page_main">
+                    <p className="article-editor-page_text">Загрузка статьи...</p>
                 </main>
             </div>
         );
@@ -103,37 +98,23 @@ function EditArticlePage() {
 
     if (!article) {
         return (
-            <div style={{ background: '#dcdcdc', minHeight: '100vh' }}>
+            <div className="article-editor-page">
                 <Navbar />
-                <main
-                    style={{
-                        maxWidth: '1200px',
-                        margin: '0 auto',
-                        padding: '20px',
-                        background: '#f4f4f4',
-                        minHeight: 'calc(100vh - 86px)',
-                    }}
-                >
-                    <p style={{ color: '#c81414' }}>{message || 'Статья не найдена'}</p>
+                <main className="article-editor-page_main">
+                    <p className="article-editor-page_message">
+                        {message || 'Статья не найдена'}
+                    </p>
                 </main>
             </div>
         );
     }
 
-    if (!isAuthor) {
+    if (!is_author) {
         return (
-            <div style={{ background: '#dcdcdc', minHeight: '100vh' }}>
+            <div className="article-editor-page">
                 <Navbar />
-                <main
-                    style={{
-                        maxWidth: '1200px',
-                        margin: '0 auto',
-                        padding: '20px',
-                        background: '#f4f4f4',
-                        minHeight: 'calc(100vh - 86px)',
-                    }}
-                >
-                    <p style={{ color: '#c81414' }}>
+                <main className="article-editor-page_main">
+                    <p className="article-editor-page_message">
                         Вы можете редактировать только свои статьи.
                     </p>
                 </main>
@@ -142,69 +123,39 @@ function EditArticlePage() {
     }
 
     return (
-        <div style={{ background: '#dcdcdc', minHeight: '100vh' }}>
+        <div className="article-editor-page">
             <Navbar />
 
-            <main
-                style={{
-                    maxWidth: '1200px',
-                    margin: '0 auto',
-                    padding: '20px',
-                    background: '#f4f4f4',
-                    minHeight: 'calc(100vh - 86px)',
-                }}
-            >
-                <h1 style={{ marginBottom: '10px', color: '#111' }}>
-                    Редактировать статью
-                </h1>
+            <main className="article-editor-page_main">
+                <h1 className="article-editor-page_title">Редактировать статью</h1>
 
-                <p style={{ color: '#666', marginBottom: '20px' }}>
+                <p className="article-editor-page_text">
                     Измените данные статьи и сохраните изменения.
                 </p>
 
                 {message && (
-                    <p style={{ color: '#c81414', fontWeight: '600' }}>{message}</p>
+                    <p className="article-editor-page_message">{message}</p>
                 )}
 
                 <NewsForm
-                    onSubmit={handleUpdate}
-                    loading={saveLoading}
+                    onSubmit={handle_update}
+                    loading={save_loading}
                     submitText="Сохранить изменения"
                     initialData={article}
+                    showDeleteButton={true}
+                    onDelete={() => set_is_delete_modal_open(true)}
+                    deleteButtonText="Удалить статью"
                 />
-
-                <div
-                    style={{
-                        maxWidth: '850px',
-                        margin: '0 auto',
-                        paddingBottom: '30px',
-                    }}
-                >
-                    <button
-                        onClick={() => setIsDeleteModalOpen(true)}
-                        style={{
-                            border: 'none',
-                            background: '#c81414',
-                            color: '#fff',
-                            padding: '12px 18px',
-                            borderRadius: '6px',
-                            fontWeight: '700',
-                            cursor: 'pointer',
-                        }}
-                    >
-                        Удалить статью
-                    </button>
-                </div>
             </main>
 
             <ConfirmModal
-                isOpen={isDeleteModalOpen}
+                isOpen={is_delete_modal_open}
                 title="Подтвердить удаление"
                 text="Вы действительно хотите удалить статью?"
-                confirmText={deleteLoading ? 'Удаление...' : 'Да'}
+                confirmText={delete_loading ? 'Удаление...' : 'Да'}
                 cancelText="Нет"
-                onConfirm={handleDeleteConfirmed}
-                onCancel={() => setIsDeleteModalOpen(false)}
+                onConfirm={handle_delete_confirmed}
+                onCancel={() => set_is_delete_modal_open(false)}
             />
         </div>
     );

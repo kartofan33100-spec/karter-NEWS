@@ -3,147 +3,142 @@ import { Link, useParams } from 'react-router-dom';
 import { getArticleById } from '../services/newsService';
 import { useAuth } from '../context/AuthContext';
 import Navbar from '../components/layout/Navbar';
+import '../styles/News.css';
 
 function NewsPage() {
     const { id } = useParams();
     const { user } = useAuth();
 
-    const [article, setArticle] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [message, setMessage] = useState('');
+    const [article, set_article] = useState(null);
+    const [loading, set_loading] = useState(true);
+    const [message, set_message] = useState('');
 
     useEffect(() => {
-        async function loadArticle() {
+        async function load_article() {
             try {
                 const data = await getArticleById(id);
-                setArticle(data);
+                set_article(data);
             } catch (error) {
-                setMessage(error.message);
+                set_message(error.message);
             } finally {
-                setLoading(false);
+                set_loading(false);
             }
         }
 
-        loadArticle();
+        load_article();
     }, [id]);
 
     if (loading) {
         return (
-            <div style={{ background: '#dcdcdc', minHeight: '100vh' }}>
+            <div className="news-page">
                 <Navbar />
-                <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 20px' }}>
-                    Загрузка...
-                </div>
+                <main className="news-page_main">
+                    <div className="news-page_container">
+                        <p className="news-page_state">Загрузка...</p>
+                    </div>
+                </main>
             </div>
         );
     }
 
     if (message) {
         return (
-            <div style={{ background: '#dcdcdc', minHeight: '100vh' }}>
+            <div className="news-page">
                 <Navbar />
-                <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 20px', color: 'red' }}>
-                    {message}
-                </div>
+                <main className="news-page_main">
+                    <div className="news-page_container">
+                        <p className="news-page_state news-page_state-error">{message}</p>
+                    </div>
+                </main>
             </div>
         );
     }
 
     if (!article) {
         return (
-            <div style={{ background: '#dcdcdc', minHeight: '100vh' }}>
+            <div className="news-page">
                 <Navbar />
-                <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 20px' }}>
-                    Статья не найдена
-                </div>
+                <main className="news-page_main">
+                    <div className="news-page_container">
+                        <p className="news-page_state">Статья не найдена</p>
+                    </div>
+                </main>
             </div>
         );
     }
 
-    const isAuthor =
-        user && article.author && (user.id === article.author.id || user.id === article.author._id);
+    const current_user_id = user?.id?.toString() || user?._id?.toString();
+    const article_author_id =
+        article.author?._id?.toString() || article.author?.id?.toString();
+
+    const is_author = current_user_id && article_author_id
+        ? current_user_id === article_author_id
+        : false;
 
     return (
-        <div style={{ background: '#dcdcdc', minHeight: '100vh' }}>
+        <div className="news-page">
             <Navbar />
 
-            <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px', background: '#f4f4f4' }}>
-                <div style={{ maxWidth: '900px', margin: '0 auto', padding: '30px 10px' }}>
-                    <div style={{ fontSize: '14px', color: '#888', marginBottom: '20px' }}>
-                        <Link to="/" style={{ color: '#888', textDecoration: 'none' }}>Главная</Link>
-                        {' / '}
+            <main className="news-page_main">
+                <div className="news-page_container">
+                    <div className="news-page_breadcrumb">
+                        <Link to="/" className="news-page_breadcrumb-link">
+                            Главная
+                        </Link>
+                        <span className="news-page_breadcrumb-separator"> / </span>
                         <span>{article.category}</span>
-                        {' / '}
+                        <span className="news-page_breadcrumb-separator"> / </span>
                         <span>{article.title}</span>
                     </div>
 
-                    <p style={{ color: '#666', marginBottom: '10px' }}>
+                    <p className="news-page_date">
                         {new Date(article.createdAt).toLocaleString()}
                     </p>
 
-                    <h1 style={{ fontSize: '48px', lineHeight: '1.1', margin: '0 0 24px', color: '#111' }}>
-                        {article.title}
-                    </h1>
+                    <h1 className="news-page_title">{article.title}</h1>
 
-                    <div
-                        style={{
-                            borderTop: '2px solid #cfcfcf',
-                            paddingTop: '20px',
-                            marginBottom: '24px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '12px',
-                        }}
-                    >
-                        <div
-                            style={{
-                                width: '40px',
-                                height: '40px',
-                                background: '#f28b82',
-                                borderRadius: '6px',
-                            }}
-                        />
-                        <span style={{ color: '#c81414', fontWeight: '700' }}>
-              {article.author?.name || 'Автор'}
-            </span>
+                    <div className="news-page_author-box">
+                        <div className="news-page_author-avatar">
+                            {article.author?.avatar ? (
+                                <img
+                                    src={article.author.avatar}
+                                    alt={article.author?.name || 'Автор'}
+                                    className="news-page_author-image"
+                                />
+                            ) : (
+                                (article.author?.name?.charAt(0) || 'A').toUpperCase()
+                            )}
+                        </div>
+
+                        <div className="news-page_author-info">
+                            <p className="news-page_author-name">
+                                {article.author?.name || 'Автор'}
+                            </p>
+                            <p className="news-page_author-role">Автор статьи</p>
+                        </div>
                     </div>
 
                     {article.image && (
                         <img
                             src={article.image}
                             alt={article.title}
-                            style={{
-                                width: '100%',
-                                maxHeight: '500px',
-                                objectFit: 'cover',
-                                display: 'block',
-                                marginBottom: '24px',
-                            }}
+                            className="news-page_image"
                         />
                     )}
 
-                    <div style={{ borderTop: '2px solid #cfcfcf', paddingTop: '24px' }}>
-                        <h2 style={{ marginTop: 0 }}>{article.category}</h2>
-                        <p style={{ fontSize: '20px', fontWeight: '600', lineHeight: '1.6', color: '#222' }}>
-                            {article.summary}
-                        </p>
-                        <p style={{ fontSize: '20px', lineHeight: '1.8', color: '#222', whiteSpace: 'pre-line' }}>
-                            {article.content}
-                        </p>
+                    <div className="news-page_content">
+                        <h2 className="news-page_category">{article.category}</h2>
+
+                        <p className="news-page_summary">{article.summary}</p>
+
+                        <p className="news-page_text">{article.content}</p>
                     </div>
 
-                    {isAuthor && (
-                        <div style={{ marginTop: '24px' }}>
+                    {is_author && (
+                        <div className="news-page_actions">
                             <Link
                                 to={`/articles/${article._id}/edit`}
-                                style={{
-                                    textDecoration: 'none',
-                                    background: '#111',
-                                    color: '#fff',
-                                    padding: '12px 16px',
-                                    borderRadius: '6px',
-                                    fontWeight: '700',
-                                }}
+                                className="news-page_edit-link"
                             >
                                 Редактировать статью
                             </Link>

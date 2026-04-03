@@ -1,10 +1,10 @@
 import React from 'react';
-import AuthForm from '../components/auth/AuthForm';
 import Navbar from '../components/layout/Navbar';
+import AuthForm from '../components/auth/AuthForm';
 
 function RegisterPage() {
     return (
-        <div style={{ background: '#dcdcdc', minHeight: '100vh' }}>
+        <div className="auth-layout">
             <Navbar />
             <AuthForm type="register" />
         </div>

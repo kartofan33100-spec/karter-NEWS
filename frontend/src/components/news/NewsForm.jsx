@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import '../../styles/NewsForm.css';
+import '../../styles/news-form.css';
 
 const TITLE_MAX_LENGTH = 120;
 const SUMMARY_MAX_LENGTH = 250;
@@ -13,7 +13,7 @@ function NewsForm({
                       showDeleteButton = false,
                       deleteButtonText = 'Удалить статью',
                   }) {
-    const [formData, setFormData] = useState({
+    const [form_data, set_form_data] = useState({
         title: '',
         summary: '',
         content: '',
@@ -24,7 +24,7 @@ function NewsForm({
     useEffect(() => {
         if (!initialData) return;
 
-        setFormData({
+        set_form_data({
             title: initialData.title || '',
             summary: initialData.summary || '',
             content: initialData.content || '',
@@ -33,7 +33,7 @@ function NewsForm({
         });
     }, [initialData]);
 
-    function handleChange(event) {
+    function handle_change(event) {
         const { name, value } = event.target;
 
         if (name === 'title' && value.length > TITLE_MAX_LENGTH) {
@@ -44,70 +44,88 @@ function NewsForm({
             return;
         }
 
-        setFormData((prev) => ({
+        set_form_data((prev) => ({
             ...prev,
             [name]: value,
         }));
     }
 
-    function handleSubmit(event) {
+    function handle_submit(event) {
         event.preventDefault();
-        onSubmit(formData);
+        onSubmit(form_data);
     }
 
     return (
-        <form className="news-form" onSubmit={handleSubmit}>
-            <div className="news-form-group">
-                <label htmlFor="title">Заголовок</label>
+        <form className="news-form" onSubmit={handle_submit}>
+            <div className="news-form_group">
+                <label className="news-form_label" htmlFor="title">
+                    Заголовок
+                </label>
+
                 <input
+                    className="news-form_input"
                     id="title"
                     type="text"
                     name="title"
-                    value={formData.title}
-                    onChange={handleChange}
+                    value={form_data.title}
+                    onChange={handle_change}
                     placeholder="Введите заголовок"
                     maxLength={TITLE_MAX_LENGTH}
                 />
-                <p className="news-form-counter">
-                    {formData.title.length}/{TITLE_MAX_LENGTH}
+
+                <p className="news-form_counter">
+                    {form_data.title.length}/{TITLE_MAX_LENGTH}
                 </p>
             </div>
 
-            <div className="news-form-group">
-                <label htmlFor="summary">Краткое описание</label>
+            <div className="news-form_group">
+                <label className="news-form_label" htmlFor="summary">
+                    Краткое описание
+                </label>
+
                 <textarea
+                    className="news-form_textarea"
                     id="summary"
                     name="summary"
-                    value={formData.summary}
-                    onChange={handleChange}
+                    value={form_data.summary}
+                    onChange={handle_change}
                     placeholder="Введите краткое описание"
                     rows="4"
                     maxLength={SUMMARY_MAX_LENGTH}
                 />
-                <p className="news-form-counter">
-                    {formData.summary.length}/{SUMMARY_MAX_LENGTH}
+
+                <p className="news-form_counter">
+                    {form_data.summary.length}/{SUMMARY_MAX_LENGTH}
                 </p>
             </div>
 
-            <div className="news-form-group">
-                <label htmlFor="content">Полный текст статьи</label>
+            <div className="news-form_group">
+                <label className="news-form_label" htmlFor="content">
+                    Полный текст статьи
+                </label>
+
                 <textarea
+                    className="news-form_textarea"
                     id="content"
                     name="content"
-                    value={formData.content}
-                    onChange={handleChange}
+                    value={form_data.content}
+                    onChange={handle_change}
                     placeholder="Введите полный текст"
                     rows="10"
                 />
             </div>
 
-            <div className="news-form-group">
-                <label htmlFor="category">Категория</label>
+            <div className="news-form_group">
+                <label className="news-form_label" htmlFor="category">
+                    Категория
+                </label>
+
                 <select
+                    className="news-form_select"
                     id="category"
                     name="category"
-                    value={formData.category}
-                    onChange={handleChange}
+                    value={form_data.category}
+                    onChange={handle_change}
                 >
                     <option value="Политика">Политика</option>
                     <option value="Спорт">Спорт</option>
@@ -116,28 +134,32 @@ function NewsForm({
                 </select>
             </div>
 
-            <div className="news-form-group">
-                <label htmlFor="image">Ссылка на изображение</label>
+            <div className="news-form_group">
+                <label className="news-form_label" htmlFor="image">
+                    Ссылка на изображение
+                </label>
+
                 <input
+                    className="news-form_input"
                     id="image"
                     type="text"
                     name="image"
-                    value={formData.image}
-                    onChange={handleChange}
+                    value={form_data.image}
+                    onChange={handle_change}
                     placeholder="Вставьте URL картинки"
                     required
                 />
             </div>
 
-            <div className="news-form-actions">
-                <button className="news-form-button" type="submit" disabled={loading}>
+            <div className="news-form_actions">
+                <button className="news-form_button" type="submit" disabled={loading}>
                     {loading ? 'Загрузка...' : submitText}
                 </button>
 
                 {showDeleteButton && onDelete && (
                     <button
                         type="button"
-                        className="news-form-delete-button"
+                        className="news-form_delete-button"
                         onClick={onDelete}
                     >
                         {deleteButtonText}

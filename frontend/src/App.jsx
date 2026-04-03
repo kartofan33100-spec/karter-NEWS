@@ -9,6 +9,7 @@ import NewsPage from './pages/NewsPage';
 import CategoryPage from './pages/CategoryPage';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import MyArticlesPage from './pages/MyArticlesPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
     return (
@@ -43,6 +44,7 @@ function App() {
                         </ProtectedRoute>
                     }
                 />
+                <Route path="*" element={<NotFoundPage />} />
             </Routes>
         </BrowserRouter>
     );

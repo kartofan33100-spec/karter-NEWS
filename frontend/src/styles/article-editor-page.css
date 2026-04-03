@@ -1,0 +1,28 @@
+.article-editor-page {
+    background: #dcdcdc;
+    min-height: 100vh;
+}
+
+.article-editor-page_main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #f4f4f4;
+    min-height: calc(100vh - 86px);
+}
+
+.article-editor-page_title {
+    margin: 0 0 10px;
+    color: #111111;
+}
+
+.article-editor-page_text {
+    color: #666666;
+    margin: 0 0 20px;
+}
+
+.article-editor-page_message {
+    color: #c81414;
+    font-weight: 600;
+    margin: 0 0 16px;
+}

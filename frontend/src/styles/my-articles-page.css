@@ -1,0 +1,88 @@
+.my-articles-page {
+    background: #dcdcdc;
+    min-height: 100vh;
+}
+
+.my-articles-page_main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #f4f4f4;
+    min-height: calc(100vh - 86px);
+}
+
+.my-articles-page_title {
+    margin: 0 0 24px;
+    color: #111111;
+}
+
+.my-articles-page_state {
+    color: #111111;
+}
+
+.my-articles-page_state-error {
+    color: #c81414;
+}
+
+.my-articles-page_empty {
+    font-size: 20px;
+    color: #555555;
+    margin: 0;
+}
+
+.my-articles-page_list {
+    display: grid;
+    gap: 20px;
+}
+
+.my-articles-page_card {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.my-articles-page_category {
+    margin: 0 0 8px;
+    color: #c81414;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.my-articles-page_card-title {
+    margin: 0 0 10px;
+    color: #111111;
+}
+
+.my-articles-page_summary {
+    margin: 0 0 16px;
+    color: #555555;
+    line-height: 1.6;
+}
+
+.my-articles-page_actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.my-articles-page_edit-link {
+    text-decoration: none;
+    background: #111111;
+    color: #ffffff;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+}
+
+.my-articles-page_delete-button {
+    border: none;
+    background: #c81414;
+    color: #ffffff;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-weight: 700;
+    cursor: pointer;
+}

@@ -4,63 +4,57 @@ import Navbar from '../components/layout/Navbar';
 import NewsForm from '../components/news/NewsForm';
 import { createArticle } from '../services/newsService';
 import { useAuth } from '../context/AuthContext';
+import '../styles/article-editor-page.css';
 
 function CreateArticlePage() {
     const { token } = useAuth();
     const navigate = useNavigate();
 
-    const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState('');
+    const [loading, set_loading] = useState(false);
+    const [message, set_message] = useState('');
 
-    async function handleCreate(formData) {
-        setMessage('');
+    async function handle_create(form_data) {
+        set_message('');
 
         if (
-            !formData.title ||
-            !formData.summary ||
-            !formData.content ||
-            !formData.category ||
-            !formData.image
+            !form_data.title ||
+            !form_data.summary ||
+            !form_data.content ||
+            !form_data.category ||
+            !form_data.image
         ) {
-            setMessage('Заполните все обязательные поля');
+            set_message('Заполните все обязательные поля, включая изображение');
             return;
         }
 
         try {
-            setLoading(true);
-            const article = await createArticle(formData, token);
+            set_loading(true);
+            const article = await createArticle(form_data, token);
             navigate(`/news/${article._id}`);
         } catch (error) {
-            setMessage(error.message);
+            set_message(error.message);
         } finally {
-            setLoading(false);
+            set_loading(false);
         }
     }
 
     return (
-        <div style={{ background: '#dcdcdc', minHeight: '100vh' }}>
+        <div className="article-editor-page">
             <Navbar />
 
-            <main
-                style={{
-                    maxWidth: '1200px',
-                    margin: '0 auto',
-                    padding: '20px',
-                    background: '#f4f4f4',
-                    minHeight: 'calc(100vh - 86px)',
-                }}
-            >
-                <h1 style={{ marginBottom: '10px', color: '#111' }}>Создать статью</h1>
-                <p style={{ color: '#666', marginBottom: '20px' }}>
+            <main className="article-editor-page_main">
+                <h1 className="article-editor-page_title">Создать статью</h1>
+
+                <p className="article-editor-page_text">
                     Заполните форму для публикации новой статьи.
                 </p>
 
                 {message && (
-                    <p style={{ color: '#c81414', fontWeight: '600' }}>{message}</p>
+                    <p className="article-editor-page_message">{message}</p>
                 )}
 
                 <NewsForm
-                    onSubmit={handleCreate}
+                    onSubmit={handle_create}
                     loading={loading}
                     submitText="Опубликовать статью"
                 />

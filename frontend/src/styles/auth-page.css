@@ -1,65 +1,62 @@
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #efefef;
+.auth-layout {
+    background: #dcdcdc;
+    min-height: 100vh;
 }
 
 .auth-page {
-    min-height: 100vh;
+    min-height: calc(100vh - 86px);
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px;
+    box-sizing: border-box;
 }
 
-.auth-card {
+.auth-page_card {
     width: 100%;
     max-width: 460px;
     background: #ffffff;
     padding: 40px 36px;
+    box-sizing: border-box;
     border-radius: 8px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
-.auth-logo {
+.auth-page_logo {
     margin: 0 0 16px;
     text-align: center;
     color: #c81414;
     font-size: 38px;
+    line-height: 1.1;
     font-weight: 800;
 }
 
-.auth-title {
+.auth-page_title {
     margin: 0 0 28px;
     text-align: center;
     font-size: 22px;
     font-weight: 700;
-    color: #111;
+    color: #111111;
 }
 
-.auth-form {
+.auth-page_form {
     display: flex;
     flex-direction: column;
     gap: 18px;
 }
 
-.auth-group {
+.auth-page_group {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
-.auth-group label {
+.auth-page_label {
     font-size: 14px;
     font-weight: 600;
-    color: #222;
+    color: #222222;
 }
 
-.auth-group input {
+.auth-page_input {
     height: 48px;
     padding: 0 14px;
     border: 1px solid #bdbdbd;
@@ -68,52 +65,57 @@ body {
     outline: none;
 }
 
-.auth-group input:focus {
+.auth-page_input:focus {
     border-color: #c81414;
 }
 
-.auth-button {
+.auth-page_button {
     height: 50px;
     border: none;
     border-radius: 6px;
-    background: #111;
-    color: white;
-    font-size: 18px;
+    background: #111111;
+    color: #ffffff;
+    font-size: 20px;
     font-weight: 700;
     cursor: pointer;
+    transition: 0.2s;
 }
 
-.auth-button:disabled {
+.auth-page_button:hover {
+    opacity: 0.92;
+}
+
+.auth-page_button:disabled {
     opacity: 0.7;
     cursor: not-allowed;
 }
 
-.auth-message {
+.auth-page_message {
     margin: 0;
     font-size: 14px;
 }
 
-.auth-error {
+.auth-page_message-error {
     color: #d11a2a;
 }
 
-.auth-success {
+.auth-page_message-success {
     color: #15803d;
 }
 
-.auth-switch {
+.auth-page_switch {
     margin-top: 22px;
     text-align: center;
+    color: #555555;
     font-size: 14px;
-    color: #555;
 }
 
-.auth-link {
-    color: #111;
+.auth-page_link {
+    color: #111111;
     font-weight: 600;
     cursor: pointer;
 }
 
-.auth-link:hover {
+.auth-page_link:hover {
     text-decoration: underline;
 }

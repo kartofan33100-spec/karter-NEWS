@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../styles/ConfirmModal.css';
+import '../../styles/confirm-modal.css';
 
 function ConfirmModal({
                           isOpen,
@@ -13,21 +13,21 @@ function ConfirmModal({
     if (!isOpen) return null;
 
     return (
-        <div className="confirm-modal-overlay">
+        <div className="confirm-modal_overlay">
             <div className="confirm-modal">
-                <h2 className="confirm-modal__title">{title}</h2>
-                <p className="confirm-modal__text">{text}</p>
+                <h2 className="confirm-modal_title">{title}</h2>
+                <p className="confirm-modal_text">{text}</p>
 
-                <div className="confirm-modal__actions">
+                <div className="confirm-modal_actions">
                     <button
-                        className="confirm-modal__btn confirm-modal__btn--danger"
+                        className="confirm-modal_button confirm-modal_button-danger"
                         onClick={onConfirm}
                     >
                         {confirmText}
                     </button>
 
                     <button
-                        className="confirm-modal__btn confirm-modal__btn--secondary"
+                        className="confirm-modal_button confirm-modal_button-secondary"
                         onClick={onCancel}
                     >
                         {cancelText}
