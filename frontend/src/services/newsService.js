@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 export async function getAllArticles(search = '', category = '') {
     const params = new URLSearchParams();
@@ -6,7 +6,7 @@ export async function getAllArticles(search = '', category = '') {
     if (search) params.append('search', search);
     if (category) params.append('category', category);
 
-    const response = await fetch(`${API_URL}?${params.toString()}`);
+    const response = await fetch(`${API_URL}/articles?${params.toString()}`);
     const data = await response.json();
 
     if (!response.ok) {
@@ -16,8 +16,24 @@ export async function getAllArticles(search = '', category = '') {
     return data;
 }
 
+export async function getMyArticles(token) {
+    const response = await fetch(`${API_URL}/articles/my/articles`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.message || 'Failed to fetch my articles');
+    }
+
+    return data;
+}
+
 export async function getArticleById(id) {
-    const response = await fetch(`${API_URL}/${id}`);
+    const response = await fetch(`${API_URL}/articles/${id}`);
     const data = await response.json();
 
     if (!response.ok) {
@@ -28,7 +44,7 @@ export async function getArticleById(id) {
 }
 
 export async function createArticle(articleData, token) {
-    const response = await fetch(`${API_URL}`, {
+    const response = await fetch(`${API_URL}/articles`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -47,7 +63,7 @@ export async function createArticle(articleData, token) {
 }
 
 export async function updateArticle(id, articleData, token) {
-    const response = await fetch(`${API_URL}/${id}`, {
+    const response = await fetch(`${API_URL}/articles/${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -66,7 +82,7 @@ export async function updateArticle(id, articleData, token) {
 }
 
 export async function deleteArticle(id, token) {
-    const response = await fetch(`${API_URL}/${id}`, {
+    const response = await fetch(`${API_URL}/articles/${id}`, {
         method: 'DELETE',
         headers: {
             Authorization: `Bearer ${token}`,
@@ -77,22 +93,6 @@ export async function deleteArticle(id, token) {
 
     if (!response.ok) {
         throw new Error(data.message || 'Failed to delete article');
-    }
-
-    return data;
-}
-
-export async function getMyArticles(token) {
-    const response = await fetch(`${API_URL}/my/articles`, {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-        throw new Error(data.message || 'Failed to fetch my articles');
     }
 
     return data;
