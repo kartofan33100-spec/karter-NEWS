@@ -6,13 +6,13 @@ const articleSchema = new mongoose.Schema(
             type: String,
             required: [true, 'Title is required'],
             trim: true,
-            maxlength: 200,
+            maxlength: 120,
         },
         summary: {
             type: String,
             required: [true, 'Summary is required'],
             trim: true,
-            maxlength: 500,
+            maxlength: 250,
         },
         content: {
             type: String,

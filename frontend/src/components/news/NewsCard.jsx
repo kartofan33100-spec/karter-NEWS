@@ -5,37 +5,30 @@ import '../../styles/NewsCard.css';
 function NewsCard({ article }) {
     return (
         <article className="news-card">
-            {article.image ? (
-                <img
-                    className="news-card-image"
-                    src={article.image}
-                    alt={article.title}
-                />
-            ) : (
-                <div className="news-card-image news-card-image-placeholder">
-                    No image
-                </div>
-            )}
+            <Link to={`/news/${article._id}`} className="news-card__image-link">
+                {article.image ? (
+                    <img
+                        className="news-card__image"
+                        src={article.image}
+                        alt={article.title}
+                    />
+                ) : (
+                    <div className="news-card__image news-card__image--placeholder">
+                        Тут картинка
+                    </div>
+                )}
+            </Link>
 
-            <div className="news-card-content">
-                <p className="news-card-category">{article.category}</p>
+            <div className="news-card__content">
+                <p className="news-card__category">{article.category.toUpperCase()}</p>
 
-                <h3 className="news-card-title">{article.title}</h3>
-
-                <p className="news-card-summary">{article.summary}</p>
-
-                <div className="news-card-footer">
-          <span className="news-card-author">
-            {article.author?.name || 'Unknown author'}
-          </span>
-                    <span className="news-card-date">
-            {new Date(article.createdAt).toLocaleDateString()}
-          </span>
-                </div>
-
-                <Link className="news-card-link" to={`/news/${article._id}`}>
-                    Читать полностью
+                <Link to={`/news/${article._id}`} className="news-card__title-link">
+                    <h3 className="news-card__title">{article.title}</h3>
                 </Link>
+
+                <p className="news-card__date">
+                    {new Date(article.createdAt).toLocaleDateString()}
+                </p>
             </div>
         </article>
     );
