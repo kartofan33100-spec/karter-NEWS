@@ -8,7 +8,7 @@ function NewsForm({
                       onSubmit,
                       loading = false,
                       submitText = 'Опубликовать статью',
-                      initialData = {},
+                      initialData = null,
                       onDelete = null,
                       showDeleteButton = false,
                       deleteButtonText = 'Удалить статью',
@@ -22,6 +22,8 @@ function NewsForm({
     });
 
     useEffect(() => {
+        if (!initialData) return;
+
         setFormData({
             title: initialData.title || '',
             summary: initialData.summary || '',
@@ -123,6 +125,7 @@ function NewsForm({
                     value={formData.image}
                     onChange={handleChange}
                     placeholder="Вставьте URL картинки"
+                    required
                 />
             </div>
 

@@ -4,7 +4,7 @@ async function createArticle(req, res, next) {
     try {
         const { title, summary, content, category, image } = req.body;
 
-        if (!title || !summary || !content || !category) {
+        if (!title || !summary || !content || !category || !image) {
             return res.status(400).json({
                 message: 'Please fill in all required fields',
             });
@@ -15,7 +15,7 @@ async function createArticle(req, res, next) {
             summary: summary.trim(),
             content: content.trim(),
             category,
-            image: image || '',
+            image: image.trim(),
             author: req.user._id,
         });
 
@@ -84,9 +84,18 @@ async function updateArticle(req, res, next) {
             });
         }
 
-        if (article.author.toString() !== req.user._id.toString()) {
+        if (image !== undefined && !image.trim()) {
+            return res.status(400).json({
+                message: 'Image is required',
+            });
+        }
+
+        const articleAuthorId = article.author.toString();
+        const currentUserId = req.user._id.toString();
+
+        if (articleAuthorId !== currentUserId) {
             return res.status(403).json({
-                message: 'You can edit only your own articles',
+                message: 'Вы можете редактировать только свои статьи',
             });
         }
 
@@ -119,9 +128,12 @@ async function deleteArticle(req, res, next) {
             });
         }
 
-        if (article.author.toString() !== req.user._id.toString()) {
+        const articleAuthorId = article.author.toString();
+        const currentUserId = req.user._id.toString();
+
+        if (articleAuthorId !== currentUserId) {
             return res.status(403).json({
-                message: 'You can delete only your own articles',
+                message: 'Вы можете удалять только свои статьи',
             });
         }
 

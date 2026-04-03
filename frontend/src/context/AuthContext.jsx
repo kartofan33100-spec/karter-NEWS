@@ -1,10 +1,37 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [token, setToken] = useState('');
+
+    useEffect(() => {
+        const savedToken = localStorage.getItem('token');
+        const savedUser = localStorage.getItem('user');
+
+        if (savedToken) {
+            setToken(savedToken);
+        }
+
+        if (savedUser) {
+            try {
+                const parsedUser = JSON.parse(savedUser);
+
+                const normalizedUser = parsedUser
+                    ? {
+                        ...parsedUser,
+                        id: parsedUser.id || parsedUser._id,
+                    }
+                    : null;
+
+                setUser(normalizedUser);
+            } catch (error) {
+                console.error('Failed to parse saved user:', error);
+                localStorage.removeItem('user');
+            }
+        }
+    }, []);
 
     function login(authData) {
         const normalizedUser = authData.user
@@ -16,6 +43,7 @@ export function AuthProvider({ children }) {
 
         setUser(normalizedUser);
         setToken(authData.token || '');
+
         localStorage.setItem('token', authData.token || '');
         localStorage.setItem('user', JSON.stringify(normalizedUser));
     }

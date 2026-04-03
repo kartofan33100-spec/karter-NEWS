@@ -8,15 +8,23 @@ function Navbar({ search = '', setSearch = null }) {
     const navigate = useNavigate();
 
     const [isOpen, setIsOpen] = useState(false);
+    const [localSearch, setLocalSearch] = useState(search);
     const dropdownRef = useRef(null);
+
+    useEffect(() => {
+        setLocalSearch(search);
+    }, [search]);
 
     function handleCategoryClick(category) {
         navigate(`/category/${encodeURIComponent(category)}`);
     }
 
     function handleSearchChange(event) {
+        const value = event.target.value;
+        setLocalSearch(value);
+
         if (setSearch) {
-            setSearch(event.target.value);
+            setSearch(value);
         }
     }
 
@@ -28,6 +36,12 @@ function Navbar({ search = '', setSearch = null }) {
         logout();
         setIsOpen(false);
         navigate('/');
+    }
+
+    function handleSearchKeyDown(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+        }
     }
 
     useEffect(() => {
@@ -64,8 +78,9 @@ function Navbar({ search = '', setSearch = null }) {
                         className="navbar__search"
                         type="text"
                         placeholder="Поиск"
-                        value={search}
+                        value={localSearch}
                         onChange={handleSearchChange}
+                        onKeyDown={handleSearchKeyDown}
                     />
 
                     {!user ? (

@@ -26,7 +26,8 @@ const articleSchema = new mongoose.Schema(
         },
         image: {
             type: String,
-            default: '',
+            required: [true, 'Image is required'],
+            trim: true,
         },
         author: {
             type: mongoose.Schema.Types.ObjectId,

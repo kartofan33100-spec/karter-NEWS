@@ -15,7 +15,13 @@ function CreateArticlePage() {
     async function handleCreate(formData) {
         setMessage('');
 
-        if (!formData.title || !formData.summary || !formData.content || !formData.category) {
+        if (
+            !formData.title ||
+            !formData.summary ||
+            !formData.content ||
+            !formData.category ||
+            !formData.image
+        ) {
             setMessage('Заполните все обязательные поля');
             return;
         }
