@@ -1,5 +1,5 @@
 const API_URL = import.meta.env.VITE_API_BASE_URL;
-console.log('VITE_API_BASE_URL =', import.meta.env.VITE_API_BASE_URL);
+
 export async function getAllArticles(search = '', category = '') {
     const params = new URLSearchParams();
 
