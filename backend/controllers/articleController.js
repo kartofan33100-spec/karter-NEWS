@@ -2,9 +2,9 @@ const Article = require('../models/Article');
 
 async function createArticle(req, res, next) {
     try {
-        const { title, summary, content, category, image } = req.body;
+        const { title, description, content, category, image } = req.body;
 
-        if (!title || !summary || !content || !category || !image) {
+        if (!title || !description || !content || !category || !image) {
             return res.status(400).json({
                 message: 'Please fill in all required fields',
             });
@@ -12,7 +12,7 @@ async function createArticle(req, res, next) {
 
         const article = await Article.create({
             title: title.trim(),
-            summary: summary.trim(),
+            description: description.trim(),
             content: content.trim(),
             category,
             image: image.trim(),
@@ -22,7 +22,7 @@ async function createArticle(req, res, next) {
 
         const populatedArticle = await Article.findById(article._id).populate(
             'author',
-            'name email'
+            'username email'
         );
 
         res.status(201).json({
@@ -48,7 +48,7 @@ async function getAllArticles(req, res, next) {
         }
 
         const articles = await Article.find(query)
-            .populate('author', 'name email')
+            .populate('author', 'username email')
             .sort({ createdAt: -1 });
 
         res.status(200).json(articles);
@@ -61,7 +61,7 @@ async function getArticleById(req, res, next) {
     try {
         const article = await Article.findById(req.params.id).populate(
             'author',
-            'name email'
+            'username email'
         );
 
         if (!article) {
@@ -71,7 +71,10 @@ async function getArticleById(req, res, next) {
         }
 
         if (article.status !== 'approved') {
-            const isAuthor = req.user && article.author._id.toString() === req.user._id.toString();
+            const isAuthor =
+                req.user &&
+                article.author._id.toString() === req.user._id.toString();
+
             const isAdmin = req.user && req.user.role === 'admin';
 
             if (!isAuthor && !isAdmin) {
@@ -89,19 +92,13 @@ async function getArticleById(req, res, next) {
 
 async function updateArticle(req, res, next) {
     try {
-        const { title, summary, content, category, image } = req.body;
+        const { title, description, content, category, image } = req.body;
 
         const article = await Article.findById(req.params.id);
 
         if (!article) {
             return res.status(404).json({
                 message: 'Article not found',
-            });
-        }
-
-        if (image !== undefined && !image.trim()) {
-            return res.status(400).json({
-                message: 'Image is required',
             });
         }
 
@@ -114,8 +111,14 @@ async function updateArticle(req, res, next) {
             });
         }
 
+        if (image !== undefined && !image.trim()) {
+            return res.status(400).json({
+                message: 'Image is required',
+            });
+        }
+
         article.title = title ? title.trim() : article.title;
-        article.summary = summary ? summary.trim() : article.summary;
+        article.description = description ? description.trim() : article.description;
         article.content = content ? content.trim() : article.content;
         article.category = category ?? article.category;
         article.image = image ? image.trim() : article.image;
@@ -126,7 +129,7 @@ async function updateArticle(req, res, next) {
 
         const populatedArticle = await Article.findById(updatedArticle._id).populate(
             'author',
-            'name email'
+            'username email'
         );
 
         res.status(200).json({
@@ -170,7 +173,7 @@ async function deleteArticle(req, res, next) {
 async function getMyArticles(req, res, next) {
     try {
         const articles = await Article.find({ author: req.user._id })
-            .populate('author', 'name email')
+            .populate('author', 'username email')
             .sort({ createdAt: -1 });
 
         res.status(200).json(articles);
