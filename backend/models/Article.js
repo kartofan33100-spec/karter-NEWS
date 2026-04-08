@@ -4,40 +4,38 @@ const articleSchema = new mongoose.Schema(
     {
         title: {
             type: String,
-            required: [true, 'Title is required'],
+            required: true,
             trim: true,
-            maxlength: 120,
         },
-        summary: {
+        description: {
             type: String,
-            required: [true, 'Summary is required'],
+            required: true,
             trim: true,
-            maxlength: 250,
         },
         content: {
             type: String,
-            required: [true, 'Content is required'],
-            trim: true,
-        },
-        category: {
-            type: String,
-            required: [true, 'Category is required'],
-            enum: ['Политика', 'Спорт', 'Финансы', 'Здоровье'],
+            required: true,
         },
         image: {
             type: String,
-            required: [true, 'Image is required'],
-            trim: true,
+            required: true,
+        },
+        category: {
+            type: String,
+            required: true,
         },
         author: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
             required: true,
         },
+        status: {
+            type: String,
+            enum: ['pending', 'approved', 'rejected'],
+            default: 'pending',
+        },
     },
-    {
-        timestamps: true,
-    }
+    { timestamps: true }
 );
 
 module.exports = mongoose.model('Article', articleSchema);

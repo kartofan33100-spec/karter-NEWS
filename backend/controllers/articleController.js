@@ -17,6 +17,7 @@ async function createArticle(req, res, next) {
             category,
             image: image.trim(),
             author: req.user._id,
+            status: 'pending',
         });
 
         const populatedArticle = await Article.findById(article._id).populate(
@@ -24,7 +25,10 @@ async function createArticle(req, res, next) {
             'name email'
         );
 
-        res.status(201).json(populatedArticle);
+        res.status(201).json({
+            message: 'Article sent for moderation',
+            article: populatedArticle,
+        });
     } catch (error) {
         next(error);
     }
@@ -33,7 +37,7 @@ async function createArticle(req, res, next) {
 async function getAllArticles(req, res, next) {
     try {
         const { search, category } = req.query;
-        const query = {};
+        const query = { status: 'approved' };
 
         if (search) {
             query.title = { $regex: search, $options: 'i' };
@@ -64,6 +68,17 @@ async function getArticleById(req, res, next) {
             return res.status(404).json({
                 message: 'Article not found',
             });
+        }
+
+        if (article.status !== 'approved') {
+            const isAuthor = req.user && article.author._id.toString() === req.user._id.toString();
+            const isAdmin = req.user && req.user.role === 'admin';
+
+            if (!isAuthor && !isAdmin) {
+                return res.status(403).json({
+                    message: 'This article is not published yet',
+                });
+            }
         }
 
         res.status(200).json(article);
@@ -99,11 +114,13 @@ async function updateArticle(req, res, next) {
             });
         }
 
-        article.title = title ?? article.title;
-        article.summary = summary ?? article.summary;
-        article.content = content ?? article.content;
+        article.title = title ? title.trim() : article.title;
+        article.summary = summary ? summary.trim() : article.summary;
+        article.content = content ? content.trim() : article.content;
         article.category = category ?? article.category;
-        article.image = image ?? article.image;
+        article.image = image ? image.trim() : article.image;
+
+        article.status = 'pending';
 
         const updatedArticle = await article.save();
 
@@ -112,7 +129,10 @@ async function updateArticle(req, res, next) {
             'name email'
         );
 
-        res.status(200).json(populatedArticle);
+        res.status(200).json({
+            message: 'Article updated and sent for re-moderation',
+            article: populatedArticle,
+        });
     } catch (error) {
         next(error);
     }
