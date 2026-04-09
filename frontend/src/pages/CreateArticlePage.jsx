@@ -18,7 +18,7 @@ function CreateArticlePage() {
 
         if (
             !form_data.title ||
-            !form_data.summary ||
+            !form_data.description ||
             !form_data.content ||
             !form_data.category ||
             !form_data.image
@@ -29,8 +29,9 @@ function CreateArticlePage() {
 
         try {
             set_loading(true);
-            const article = await createArticle(form_data, token);
-            navigate(`/news/${article._id}`);
+            const data = await createArticle(form_data, token);
+            set_message(data.message || 'Статья отправлена на модерацию');
+            navigate('/my-articles');
         } catch (error) {
             set_message(error.message);
         } finally {

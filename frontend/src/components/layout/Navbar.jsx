@@ -117,7 +117,7 @@ function Navbar({ search = '', setSearch = null }) {
                                 onClick={handle_dropdown_toggle}
                             >
                                 <div className="navbar_avatar">
-                                    {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
+                                    {user.username ? user.username.charAt(0).toUpperCase() : 'U'}
                                 </div>
                             </button>
 
@@ -125,12 +125,12 @@ function Navbar({ search = '', setSearch = null }) {
                                 <div className="navbar_dropdown">
                                     <div className="navbar_dropdown-header">
                                         <div className="navbar_dropdown-avatar">
-                                            {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
+                                            {user.username ? user.username.charAt(0).toUpperCase() : 'U'}
                                         </div>
 
                                         <div className="navbar_dropdown-user">
                                             <p className="navbar_dropdown-name">
-                                                {user.name || 'Пользователь'}
+                                                {user.username || 'Пользователь'}
                                             </p>
                                         </div>
                                     </div>

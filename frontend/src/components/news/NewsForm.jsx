@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import '../../styles/news-form.css';
 
 const TITLE_MAX_LENGTH = 120;
-const SUMMARY_MAX_LENGTH = 250;
+const DESCRIPTION_MAX_LENGTH = 250;
 
 function NewsForm({
                       onSubmit,
@@ -15,7 +15,7 @@ function NewsForm({
                   }) {
     const [form_data, set_form_data] = useState({
         title: '',
-        summary: '',
+        description: '',
         content: '',
         category: 'Политика',
         image: '',
@@ -26,7 +26,7 @@ function NewsForm({
 
         set_form_data({
             title: initialData.title || '',
-            summary: initialData.summary || '',
+            description: initialData.description || '',
             content: initialData.content || '',
             category: initialData.category || 'Политика',
             image: initialData.image || '',
@@ -40,7 +40,7 @@ function NewsForm({
             return;
         }
 
-        if (name === 'summary' && value.length > SUMMARY_MAX_LENGTH) {
+        if (name === 'description' && value.length > DESCRIPTION_MAX_LENGTH) {
             return;
         }
 
@@ -52,6 +52,7 @@ function NewsForm({
 
     function handle_submit(event) {
         event.preventDefault();
+        console.log('NewsForm submit:', form_data);
         onSubmit(form_data);
     }
 
@@ -79,23 +80,23 @@ function NewsForm({
             </div>
 
             <div className="news-form_group">
-                <label className="news-form_label" htmlFor="summary">
+                <label className="news-form_label" htmlFor="description">
                     Краткое описание
                 </label>
 
                 <textarea
                     className="news-form_textarea"
-                    id="summary"
-                    name="summary"
-                    value={form_data.summary}
+                    id="description"
+                    name="description"
+                    value={form_data.description}
                     onChange={handle_change}
                     placeholder="Введите краткое описание"
                     rows="4"
-                    maxLength={SUMMARY_MAX_LENGTH}
+                    maxLength={DESCRIPTION_MAX_LENGTH}
                 />
 
                 <p className="news-form_counter">
-                    {form_data.summary.length}/{SUMMARY_MAX_LENGTH}
+                    {form_data.description.length}/{DESCRIPTION_MAX_LENGTH}
                 </p>
             </div>
 
