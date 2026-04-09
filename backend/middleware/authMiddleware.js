@@ -1,24 +1,34 @@
-const express = require('express');
-const router = express.Router();
+const jwt = require('jsonwebtoken');
+const User = require('../models/User');
 
-const {
-    createArticle,
-    getAllArticles,
-    getArticleById,
-    updateArticle,
-    deleteArticle,
-    getMyArticles,
-} = require('../controllers/articleController');
+async function protect(req, res, next) {
+    try {
+        const authHeader = req.headers.authorization;
 
-const { protect } = require('../middleware/authMiddleware');
-const { optionalProtect } = require('../middleware/optionalAuthMiddleware');
+        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+            return res.status(401).json({
+                message: 'Not authorized, token missing',
+            });
+        }
 
-router.get('/', getAllArticles);
-router.get('/my', protect, getMyArticles);
-router.get('/:id', optionalProtect, getArticleById);
+        const token = authHeader.split(' ')[1];
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-router.post('/', protect, createArticle);
-router.put('/:id', protect, updateArticle);
-router.delete('/:id', protect, deleteArticle);
+        const user = await User.findById(decoded.userId).select('-password');
 
-module.exports = router;
+        if (!user) {
+            return res.status(401).json({
+                message: 'Not authorized, user not found',
+            });
+        }
+
+        req.user = user;
+        next();
+    } catch (error) {
+        return res.status(401).json({
+            message: 'Not authorized, invalid token',
+        });
+    }
+}
+
+module.exports = { protect };
