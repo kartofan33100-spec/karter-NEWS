@@ -52,7 +52,7 @@ function EditArticlePage() {
 
         if (
             !form_data.title ||
-            !form_data.summary ||
+            !form_data.description ||
             !form_data.content ||
             !form_data.category ||
             !form_data.image

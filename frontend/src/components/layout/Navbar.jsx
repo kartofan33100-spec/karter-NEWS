@@ -153,6 +153,16 @@ function Navbar({ search = '', setSearch = null }) {
                                         Просмотр статей
                                     </Link>
 
+                                    {user?.role === 'admin' && (
+                                        <Link
+                                            to="/admin"
+                                            className="navbar_dropdown-item"
+                                            onClick={() => set_is_open(false)}
+                                        >
+                                            Админ
+                                        </Link>
+                                    )}
+
                                     <button
                                         className="navbar_dropdown-item navbar_dropdown-item-danger"
                                         onClick={handle_logout}
