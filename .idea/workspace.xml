@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4ce77b1-e5ae-4907-9f3f-3f8117ea0f9c" name="Changes" comment="" />
+    <list default="true" id="f4ce77b1-e5ae-4907-9f3f-3f8117ea0f9c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/backend/controllers/adminController.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/middleware/adminMiddleware.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/middleware/optionalAuthMiddleware.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/routes/adminRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/middleware/authMiddleware.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/middleware/authMiddleware.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,8 +21,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
         <option value="JSX File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -79,7 +87,7 @@
       <workItem from="1775472964271" duration="213000" />
       <workItem from="1775542359376" duration="3153000" />
       <workItem from="1775551311672" duration="6876000" />
-      <workItem from="1775672432610" duration="3505000" />
+      <workItem from="1775672432610" duration="6679000" />
     </task>
     <servers />
   </component>

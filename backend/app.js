@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const articleRoutes = require('./routes/articleRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 const notFound = require('./middleware/notFoundMiddleware');
 const errorHandler = require('./middleware/errorMiddleware');
 
@@ -16,6 +17,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/auth', authRoutes);
 app.use('/api/articles', articleRoutes);
+app.use('/api/admin', adminRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

@@ -8,9 +8,9 @@ function isValidEmail(email) {
 
 async function registerUser(req, res, next) {
     try {
-        const { name, email, password } = req.body;
+        const { username, email, password } = req.body;
 
-        if (!name || !email || !password) {
+        if (!username || !email || !password) {
             return res.status(400).json({
                 message: 'Please fill in all fields',
             });
@@ -28,7 +28,7 @@ async function registerUser(req, res, next) {
             });
         }
 
-        const existingUser = await User.findOne({ email: email.toLowerCase() });
+        const existingUser = await User.findOne({ email: email.toLowerCase().trim() });
 
         if (existingUser) {
             return res.status(400).json({
@@ -39,9 +39,10 @@ async function registerUser(req, res, next) {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const user = await User.create({
-            name: name.trim(),
+            username: username.trim(),
             email: email.toLowerCase().trim(),
             password: hashedPassword,
+            avatar: '',
         });
 
         res.status(201).json({
@@ -49,8 +50,10 @@ async function registerUser(req, res, next) {
             token: generateToken(user._id),
             user: {
                 id: user._id,
-                name: user.name,
+                username: user.username,
                 email: user.email,
+                avatar: user.avatar,
+                role: user.role,
             },
         });
     } catch (error) {
@@ -89,8 +92,10 @@ async function loginUser(req, res, next) {
             token: generateToken(user._id),
             user: {
                 id: user._id,
-                name: user.name,
+                username: user.username,
                 email: user.email,
+                avatar: user.avatar,
+                role: user.role,
             },
         });
     } catch (error) {
@@ -103,8 +108,10 @@ async function getCurrentUser(req, res, next) {
         res.status(200).json({
             user: {
                 id: req.user._id,
-                name: req.user.name,
+                username: req.user.username,
                 email: req.user.email,
+                avatar: req.user.avatar,
+                role: req.user.role,
             },
         });
     } catch (error) {
