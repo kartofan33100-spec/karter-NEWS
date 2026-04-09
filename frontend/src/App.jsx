@@ -10,6 +10,8 @@ import CategoryPage from './pages/CategoryPage';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import MyArticlesPage from './pages/MyArticlesPage';
 import NotFoundPage from './pages/NotFoundPage';
+import AdminPage from './pages/AdminPage';
+import AdminRoute from './components/routes/AdminRoute';
 
 function App() {
     return (
@@ -42,6 +44,14 @@ function App() {
                         <ProtectedRoute>
                             <MyArticlesPage />
                         </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/admin"
+                    element={
+                        <AdminRoute>
+                            <AdminPage />
+                        </AdminRoute>
                     }
                 />
                 <Route path="*" element={<NotFoundPage />} />
