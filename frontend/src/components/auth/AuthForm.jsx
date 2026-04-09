@@ -10,7 +10,7 @@ function AuthForm({ type }) {
     const { login } = useAuth();
 
     const [form_data, set_form_data] = useState({
-        name: '',
+        username: '',
         email: '',
         password: '',
         confirm_password: '',
@@ -30,7 +30,7 @@ function AuthForm({ type }) {
     }
 
     function validate_form() {
-        if (!is_login && !form_data.name.trim()) {
+        if (!is_login && !form_data.username.trim()) {
             return 'Введите имя';
         }
 
@@ -81,7 +81,7 @@ function AuthForm({ type }) {
                 navigate('/');
             } else {
                 const data = await registerUser({
-                    name: form_data.name,
+                    username: form_data.username,
                     email: form_data.email,
                     password: form_data.password,
                 });
@@ -111,16 +111,16 @@ function AuthForm({ type }) {
                 <form className="auth-page_form" onSubmit={handle_submit}>
                     {!is_login && (
                         <div className="auth-page_group">
-                            <label className="auth-page_label" htmlFor="name">
+                            <label className="auth-page_label" htmlFor="username">
                                 Имя
                             </label>
                             <input
                                 className="auth-page_input"
-                                id="name"
+                                id="username"
                                 type="text"
-                                name="name"
+                                name="username"
                                 placeholder="Введите имя"
-                                value={form_data.name}
+                                value={form_data.username}
                                 onChange={handle_change}
                             />
                         </div>
